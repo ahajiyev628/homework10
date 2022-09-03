@@ -1,9 +1,9 @@
 package homework9;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
 
 public class Human {
@@ -16,22 +16,31 @@ public class Human {
     private Pet pet;
     private Human mother;
     private Human father;
-    private Map<DayOfWeek,String> schedule;
 
     private Family family;
 
     Calendar cal = Calendar.getInstance();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+    public Human(){}
+
+    public Human(String name, String surname, String birthDate, int iq) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = sdf.parse(birthDate);
+        this.name = name;
+        this.surname = surname;
+        this.birthDate = sdf.format(date);
+        this.iq = iq;
+    }
 
     public Human(String name, String surname, long unix_time, int iq) {
+        SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy");
         cal.setTimeInMillis(unix_time);
         cal.add(Calendar.DATE,0);
         Date date = cal.getTime();
         this.name = name;
         this.surname = surname;
-        this.birthDate = sdf.format(date);
+        this.birthDate = sd.format(date);
         this.iq = iq;
-        System.out.println("name: "+this.name+". surname: "+this.surname+". birthDate: "+this.birthDate+". IQ: "+this.iq);
     }
 
     public Human getMother() {
@@ -57,25 +66,6 @@ public class Human {
     public void setFamily(Family family) {
         this.family = family;
     }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    public Map<DayOfWeek, String> getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Map<DayOfWeek, String> schedule) {
-        this.schedule = schedule;
-    }
-
-    //public static String[] weekdays = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-    public static String[] tasks = {"do homework", "go to courses", "watch a film", "play a game", "meet with friends", "go for shopping", "go to sport"};
 
     public String getName() {
         return name;
@@ -112,20 +102,6 @@ public class Human {
         return iq;
     }
 
-    public Human() {
-
-    }
-
-    public Human(String name, String surname, long unix_time, int iq, Pet pet, Human mother, Human father, Map<DayOfWeek, String> schedule) {
-        this.name = name;
-        this.surname = surname;
-        this.unix_time = unix_time;
-        this.iq = iq;
-        this.pet = pet;
-        this.mother = mother;
-        this.father = father;
-        this.schedule = schedule;
-    }
 
     public Human(String name, String surname) {
         this.name = name;
@@ -141,7 +117,7 @@ public class Human {
         return "Human{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", birthdate=" + sd.format(date) +
+                ", birthdate=" + birthDate +
                 ", iq=" + iq +
                 '}';
     }
@@ -149,18 +125,5 @@ public class Human {
     public String describeAge(long timestamp) {
         cal.setTimeInMillis(timestamp);
         return "year: " + cal.get(Calendar.YEAR) + ". month: " + cal.get(Calendar.MONTH) + ". day: " + cal.get(Calendar.DAY_OF_MONTH);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Human human = (Human) o;
-        return unix_time == human.unix_time && iq == human.iq && Objects.equals(name, human.name) && Objects.equals(surname, human.surname) && Objects.equals(pet, human.pet) && Objects.equals(mother, human.mother) && Objects.equals(father, human.father) && Objects.equals(schedule, human.schedule);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, surname, unix_time, iq, pet, mother, father, schedule);
     }
 }
