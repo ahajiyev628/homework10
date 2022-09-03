@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Main {
 
-    public static <CollectionFamilyDAO> void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException {
         FamilyService fs = new FamilyService(new CollectionFamilyDao());
 
         fs.createNewFamily(new Human("father","father"),new Human("mother","mother"), null);
 
         System.out.println(fs.count());
 
-
         System.out.println(fs.getAllFamilies().toString());
+        System.out.println("");
 
         Human h2 = new Human("Allahverdi2","Hajiyev2", "24/11/1998", 100);
         fs.adoptChild(fs.getFamilyById(0), h2);
