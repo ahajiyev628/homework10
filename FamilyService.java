@@ -6,20 +6,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FamilyService {
-    private final homework9.CollectionFamilyDao fams;
+    private final CollectionFamilyDao fams;
 
     public FamilyService(CollectionFamilyDao fams) {
         this.fams = fams;
     }
 
-    public List<homework9.Family> getAllFamilies(){
+    public List<Family> getAllFamilies(){
         return fams.getAllFamilies();
     }
     public String displayAllFamilies(){
         return Arrays.toString(fams.getAllFamilies().toArray());
     }
 
-    public Collection<homework9.Family> getFamiliesBiggerThan(int n){
+    public Collection<Family> getFamiliesBiggerThan(int n){
         return fams
                 .getAllFamilies()
                 .stream()
@@ -40,8 +40,8 @@ public class FamilyService {
         return 0;
     }
 
-    public void createNewFamily(Human father, Human mother){
-        fams.families.add(new homework9.Family(father,mother));
+    public void createNewFamily(Human father, Human mother, List<Human> children){
+        fams.families.add(new Family(father,mother, children));
         System.out.println("new Family is created and added to database");
     }
 
@@ -66,7 +66,7 @@ public class FamilyService {
         }
     }
 
-    public homework9.Family adoptChild(homework9.Family f, Human child) {
+    public Family adoptChild(Family f, Human child) {
         f.addChild(child);
         return f;
     }
